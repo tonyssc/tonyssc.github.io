@@ -1,0 +1,51 @@
+//-----------------------------------------------------
+// icon scss
+//-----------------------------------------------------
+
+
+// font-awesome-4.1.0
+//-----------------------------------------------------
+
+$fa-font-path: "/public/fonts" !default;
+//$fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.1.0/fonts" !default; // for referencing Bootstrap CDN font files directly
+$fa-css-prefix: "icon-fa" !default;
+$fa-version: "4.1.0" !default;
+
+$icon-fa:   ("icon-fa-weibo", "\f18a"),
+			("icon-fa-rss", "\f09e"),
+			("icon-fa-rss-square", "\f143"),
+			("icon-fa-qq", "\f1d6"),
+			("icon-fa-wechat", "\f1d7"),
+			("icon-fa-envelope-o", "\f003"),
+      ("icon-fa-align-left", "\f104"),
+      ("icon-fa-align-right", "\f105") !default;
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('#{$fa-font-path}/fontawesome-webfont.eot?v=#{$fa-version}');
+  src: url('#{$fa-font-path}/fontawesome-webfont.eot?#iefix&v=#{$fa-version}') format('embedded-opentype'),
+    url('#{$fa-font-path}/fontawesome-webfont.woff?v=#{$fa-version}') format('woff'),
+    url('#{$fa-font-path}/fontawesome-webfont.ttf?v=#{$fa-version}') format('truetype'),
+    url('#{$fa-font-path}/fontawesome-webfont.svg?v=#{$fa-version}#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.#{$fa-css-prefix} {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-stroke-width: 0.2px;
+}
+
+@each $iconParams in $icon-fa {
+	$icon-fa-name: nth($iconParams, 1);
+	$icon-fa-content: nth($iconParams, 2);
+	.#{$icon-fa-name}:before {
+		content: $icon-fa-content;
+	}
+}

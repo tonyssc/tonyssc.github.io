@@ -1,0 +1,23 @@
+name: "[ Tony ]"
+pygments: true
+markdown: redcarpet
+redcarpet:
+  extensions: ["fenced_code_blocks", "tables", "strikethrough", "highlight", "footnotes"]
+
+permalink: /:categories/:year/:month/:day/:title
+
+paginate: 5
+paginate_path: "/page/:num"
+
+title: "tony.sunsc"
+author:
+  name: "Sun Shaocheng"
+  email: "tony.sunsc@gmail.com"
+  github: "tonyssc"
+  weibo:
+    name: "@孙少成"
+    url: "http://weibo.com/tonyssc"
+
+powered:
+  disqus:
+    shortname: "tonysunsc"

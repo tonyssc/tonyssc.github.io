@@ -1,0 +1,83 @@
+//-----------------------------------------------------
+// header scss
+//-----------------------------------------------------
+
+.site_header {
+	position: relative;
+	height: 300px;
+	.header_inner {
+		position: relative;
+		width: $bodyWidth;
+		margin-left: auto;
+		margin-right: auto;
+		@extend %pie-clearfix;
+	}
+}
+.site_banner {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: url(/public/images/banner-tracks-1600800.jpg) no-repeat center center;
+	left: 0;
+	top: 0;
+	@include background-size(cover);
+	z-index: -1;
+}
+.site_main_nav {
+	@if($lte7) { *display: inline; }
+	float: left;
+	.link_item {
+		display: inline-block;
+		padding: 20px 15px;
+		font-weight: 300;
+		letter-spacing: 1px;
+		color: $white;
+		opacity: .7;
+		@if($lte7) { *filter: alpha(opacity=60); }
+		@include transition(opacity .2s linear);
+		@include text-shadow(0 1px rgba(0,0,0,0.2));
+		&:hover {
+			opacity: 1;
+			@if($lte7) { *filter: alpha(opacity=100); }
+		}
+	}
+}
+.site_sub_nav {
+	@if($lte7) { *display: inline; }
+	float: right;
+	.link_item {
+		display: inline-block;
+		padding: 25px 10px 20px 10px;
+		color: #fff;
+		opacity: .7;
+		@include transition(opacity .2s linear);
+		&:hover {
+			opacity: 1;
+		}
+		&:before { font-size: 16px; }
+	}
+}
+.site_logo {
+	position: relative;
+	width: $bodyWidth;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+	.logo_title {
+		display: block;
+		font-weight: bold;
+		font-size: 34px;
+		line-height: 44px;
+		max-width: 450px;
+		margin-left: 10px;
+		margin-bottom: 2px;
+		.desc {
+			display: inline-block;
+			color: #fff;
+			font-weight: normal;
+			font-family: "Bitter";
+			background: rgba(0,0,0,0.4);
+			box-shadow: 10px 0 0 rgba(0,0,0,0.4), -10px 0 0 rgba(0,0,0,0.4);
+		}
+	}
+}

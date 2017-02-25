@@ -1,0 +1,52 @@
+//-----------------------------------------------------
+// pagination scss
+//-----------------------------------------------------
+
+.site_page {
+	overflow: hidden;
+	width: $bodyWidth;
+	height: 40px;
+	margin: 50px auto;
+	border: 1px solid #ddd;
+	background-color: $white;
+	text-align: center;
+	color: #999;
+	font-size: 0;
+	@extend %pie-clearfix;
+	@include box-shadow(1px 2px 3px #ddd);
+	@include border-radius(3px);
+	a {
+		display: inline-block;
+		color: $grayLight;
+		line-height: 40px;
+		font-size: 14px;
+		text-align: center;
+		vertical-align: top;
+		&:hover {
+			color: $grayDark;
+		}
+		@include transition(color .2s linear);
+	}
+	.page_number {
+		display: inline-block;
+		width: 40px;
+		line-height: 40px;
+		font-size: 14px;
+		text-align: center;
+		vertical-align: top;
+	}
+	.current {
+		color: $grayDark;
+		font-weight: bold;
+	}
+	.next {
+		@if($lte7) { *display: inline; }
+		float: right;
+		margin-right: 20px;
+	}
+	.prev {
+		@if($lte7) { *display: inline; }
+		float: left;
+		margin-left: 20px;
+	}
+}

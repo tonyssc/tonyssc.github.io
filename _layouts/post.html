@@ -1,0 +1,20 @@
+{% comment %}文章发布页面{% endcomment %}
+
+{% include header.html %}
+
+<div class="site_content">
+    <div class="content_container">
+	    <article class="article">
+            <div class="article_meta"><span class="txt_date">{{ page.date | date:"%Y/%m/%d" }}</span></div>
+            <div class="article_inner">
+                <header class="article_header">
+                    <h1><span class="txt_title">{{ page.title }}</span></h1>
+                </header>
+                <div class="article_entry">{{ content }}</div>
+            </div>
+        </article>
+	</div>
+	{% include duoshuo.html %}
+</div>
+
+{% include footer.html %}

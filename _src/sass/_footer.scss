@@ -1,0 +1,28 @@
+//-----------------------------------------------------
+// footer scss
+//-----------------------------------------------------
+
+.site_footer {
+	padding: 40px 0;
+	border-top: 1px solid #ddd;
+	background-color: #262a30;
+	color: #999;
+	.footer_inner {
+		width: $bodyWidth;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+	}
+}
+.footer_powered {
+	font-size: 12px;
+	.powered_info { margin-right: 5px; }
+	.link_powered {
+		margin: 0 5px;
+		color: #258fb8;
+		&:hover {
+			color: #258fb8;
+			text-decoration: underline;
+		}
+	}
+}

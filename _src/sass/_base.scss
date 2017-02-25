@@ -1,0 +1,77 @@
+//-----------------------------------------------------
+// base scss
+//-----------------------------------------------------
+
+
+// reset some attribute
+//-----------------------------------------------------
+
+body {
+	background-color: $bodyBgColor;
+	font-size: $baseFontSize;
+	font-family: $baseFontFamily;
+	line-height: $baseLineHeight;
+	color: $textColor;
+}
+
+button, input, select, textarea { /* for ie */
+    font-size: $baseFontSize;
+    color: $textColor;
+}
+
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+
+a {
+    text-decoration: none;
+    color: nth($linkColor, 1);
+    &:hover {
+        color: nth($linkColor, 2);
+        text-decoration: none;
+    }
+    &:active {
+        color: nth($linkColor, 3);
+        text-decoration: none;
+    }
+    @include transition(color .2s linear);
+}
+
+address, cite, dfn, em, var, i { font-style: normal; }
+
+code, kbd, pre, samp, tt { font-family: $codeFontFamily; }
+
+small { font-size: 80%; }
+
+img {
+    border: 0 none;
+    vertical-align: middle;
+    -ms-interpolation-mode: bicubic;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: 100%; /* 使得表单元素在 ie 下能继承字体大小 */
+    vertical-align: middle;
+}
+
+button, input[type=button], input[type=submit], input[type="reset"] {
+    -webkit-appearance: button;
+    cursor: pointer;
+    *overflow: visible;
+}
+
+button[disabled],
+input[disabled] {
+    cursor: default;
+}
+
+button::-moz-focus-inner, button::-moz-focus-outer, input::-moz-focus-inner,
+input::-moz-focus-outer {
+    border: 0 none;
+    padding: 0;
+    margin: 0
+}
+
+// function
+//-----------------------------------------------------
+
+%pie-clearfix { @include pie-clearfix; }

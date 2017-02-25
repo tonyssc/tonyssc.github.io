@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <!-- google fonts -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Code+Pro">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Bitter">
+    <!-- highlight -->
+    <link rel="stylesheet" href="/public/css/syntax.css">
+    <link rel="stylesheet" href="/public/css/blog.css">
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-54903627-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+</head>
+<body>
+<!-- header start -->
+<header class="site_header">
+    <div class="site_banner"></div>
+    <div class="header_inner">
+        <nav class="site_main_nav">
+            <a class="link_item" href="/" title="Home">Home</a>
+            <a class="link_item" href="/archives/index.html" title="Archives">Archives</a>
+            <a class="link_item" href="https://github.com/{{ site.author.github }}" title="GitHub">GitHub</a>
+        </nav>
+        <nav class="site_sub_nav">
+            <a class="link_item icon-fa icon-fa-weibo" href="{{ site.author.weibo.url }}" title="{{ site.author.weibo.name }}"></a>
+            <a class="link_item icon-fa icon-fa-rss" href="/atom.xml" title="rss"></a>
+            <a class="link_item icon-fa icon-fa-envelope-o" href="mailto:{{ site.author.email }}" title="email"></a>
+        </nav>
+    </div>
+    <div class="site_logo">
+        <h2 class="logo_title"><span class="desc">Youth, Never Say Die</span></h2>
+    </div>
+</header>
+<!-- header end -->

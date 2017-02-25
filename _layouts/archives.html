@@ -1,0 +1,37 @@
+{% include header.html %}
+
+<div class="site_content">
+    {% for post in site.posts %}
+        {% unless post.next %}
+        <section class="archives_wrap">
+            <div class="archive_year_wrap">
+                <span class="archive_year">{{ post.date | date:"%Y" }}</span>
+            </div>
+            <div class="archives">
+        {% else %}
+            {% capture year %}{{ post.date | date:"%Y" }}{% endcapture %}
+            {% capture nyear %}{{ post.next.date | date:"%Y" }}{% endcapture %}
+            {% if year != nyear %}
+            </div>
+        </section>
+            <section class="archives_wrap">
+                <div class="archive_year_wrap">
+                    <span class="archive_year">{{ post.date | date:"%Y" }}</span>
+                </div>
+                <div class="archives">
+            {% endif %}
+        {% endunless %}
+        <article class="archive_article archive_type_post">
+            <div class="archive_article_inner">
+                <header class="archive_article_header">
+                    <span class="archive_article_date"><time>{{ post.date | date:"%b %-d" }}</time></span>
+                    <h1><a class="archive_article_title" href="{{ post.url }}">{{ post.title }}</a></h1>
+                </header>
+            </div>
+        </article>
+    {% endfor %}
+        </div>
+    </section>
+</div>
+
+{% include footer.html %}

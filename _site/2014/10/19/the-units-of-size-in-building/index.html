@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>深入理解CSS中的尺寸单位 | tony.sunsc</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <!-- google fonts -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Code+Pro">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Bitter">
+    <!-- highlight -->
+    <link rel="stylesheet" href="/public/css/syntax.css">
+    <link rel="stylesheet" href="/public/css/blog.css">
+</head>
+<body>
+<!-- header start -->
+<header class="site_header">
+    <div class="site_banner"></div>
+    <div class="header_inner">
+        <nav class="site_main_nav">
+            <a class="link_item" href="/" title="Home">Home</a>
+            <a class="link_item" href="/archives/index.html" title="Archives">Archives</a>
+            <a class="link_item" href="https://github.com/tonyssc" title="GitHub">GitHub</a>
+        </nav>
+        <nav class="site_sub_nav">
+            <a class="link_item icon-fa icon-fa-weibo" href="http://weibo.com/tonyssc" title="@孙少成"></a>
+            <a class="link_item icon-fa icon-fa-rss" href="/atom.xml" title="rss"></a>
+            <a class="link_item icon-fa icon-fa-envelope-o" href="mailto:tony.sunsc@gmail.com" title="email"></a>
+        </nav>
+    </div>
+    <div class="site_logo">
+        <h2 class="logo_title"><span class="desc">Youth, Never Say Die</span></h2>
+    </div>
+</header>
+<!-- header end -->
+
+<div class="site_content">
+    <div class="content_container">
+	    <article class="article">
+            <div class="article_meta"><span class="txt_date">2014/10/19</span></div>
+            <div class="article_inner">
+                <header class="article_header">
+                    <h1><span class="txt_title">深入理解CSS中的尺寸单位</span></h1>
+                </header>
+                <div class="article_entry"><p>最近在移动端的页面开发过程中使用了较多的相对尺寸单位，发现配合移动端页面的响应式特点效果比较好。本来只想介绍这些新的尺寸单位，后来想想还是让那些基础的尺寸单位也露露脸，搭个顺风车。</p>
+
+<h2>常见的尺寸单位：</h2>
+
+<ul>
+<li>% -- 百分比</li>
+<li>in -- 寸</li>
+<li>cm -- 厘米</li>
+<li>mm -- 毫米</li>
+<li>pt(point) -- 大约1/72寸</li>
+<li>pc(pica) -- 大约6pt, 1/6寸</li>
+<li>px -- 屏幕的一个像素点</li>
+<li>em -- 相对单位</li>
+<li>ex -- font-size的x-height值，为小写字母x的高度，通常相当于font-size的一半</li>
+</ul>
+
+<!--break-->
+
+<p>介绍了这么多只是希望大家对尺寸单位有个整体的了解，其实日常开发中我们熟悉的尺寸单位无非是以下这三种：px / % / em</p>
+
+<p>px就不多说了，制作一个固定尺寸的页面就靠它了。包括字体的大小，行高，容器的宽高等等...</p>
+
+<p>%和em都表示一个相对单位，都是基于某个值来计算当前元素的尺寸的，让我们先看几个例子：</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">.percent { font-size: 150%; } // 字体大小为父元素的150%
+.em { font-size: 1.5em; } // 字体大小为父元素的1.5倍
+</code></pre></div>
+<p>上边这个例子中150%和1.5em得到的结果是一致的。那么新的问题就出现了，我们都知道，当行高为文字大小的1.5倍的时候，用户阅读起来会更舒服，因此我们经常设置line-height: 1.5，那么line-height: 1.5和line-height: 150%或者line-height: 1.5em有什么区别呢？</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">body { font-size: 14px; }
+.px-line-height { line-height: 15px; }
+.em-line-height { line-height: 1.5em; }
+.percent-line-height { line-height: 150%; }
+.nounits-line-height { line-height: 1.5; }
+pre { font-size: 30px; }
+
+&lt;div class=&quot;px-line-height&quot;&gt;
+    &lt;pre&gt;
+    测试
+    情况为line-height:15px时
+    &lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&quot;em-line-height&quot;&gt;
+    &lt;pre&gt;
+    测试
+    情况为line-height:1.5em时
+    &lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&quot;percent-line-height&quot;&gt;
+    &lt;pre&gt;
+    测试
+    情况为line-height:150%时
+    &lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&quot;nounits-line-height&quot;&gt;
+    &lt;pre&gt;
+    测试
+    情况为line-height:1.5时
+    &lt;/pre&gt;
+&lt;/div&gt;
+</code></pre></div>
+<p>结果如下图：</p>
+
+<p><img src="/public/images/line-height.png" style="width:458px;height:561px;"></p>
+
+<p>从图中我们得到的结论就是：</p>
+
+<p>百分比和em在计算line-height时会根据父元素的font-size计算，然后将结果赋给line-height属性，而没有单位的倍数会根据子元素的font-size动态计算line-height属性值。</p>
+
+<h2>CSS3中的尺寸单位</h2>
+
+<ul>
+<li>ch -- 字符0的宽度</li>
+<li>rem -- 根据根元素(html)font-size计算的值, 相对单位</li>
+<li>vw -- viewport width, 根据视口宽度计算的值, 1vw相当于视口宽度的1%</li>
+<li>vh -- viewport height, 根据视口高度计算的值, 1vh相当于视口高度的1%</li>
+<li>vmin -- vw和vh中较小的那个值</li>
+<li>vmax -- vw和vh中较大的那个值</li>
+</ul>
+
+<p>这里我们着重介绍rem和vw、vh这几个单位, 这三个单位都适合用在移动端开发中，因为移动端的页面要求要兼容多个尺寸的移动设备，而相对单位又是响应式的必备工具。</p>
+
+<h3>rem</h3>
+
+<p>使用过em或%单位布局的同学都应该知道，它们会根据父元素进行相应的尺寸计算，计算深度会一级一级的叠加，如果不能很清楚的理清每层的相对数值，最后会出现不小的偏差，而且变得很难维护。rem则是在em的基础上进行的扩展，r=root。从字面上就可以理解rem是针对根元素(html)进行尺寸的计算，在开发中只需要设置html元素的字体大小，在后续的开发中都可以根据这个相对值进行尺寸的设定，例如：</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">html { font-size: 0.625rem; } // 浏览器默认的字体大小是16px，0.625 * 16 = 10
+</code></pre></div>
+<p>这里只是一个参考值，将基数定为10便于后续的尺寸计算。比如：h1标签的字体需要20px，则可以设置：</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">h1 { font-size: 2rem; } // 10 * 2 = 20
+</code></pre></div>
+<h3>vw vh vmin vmax</h3>
+
+<p>先让我们看看w3c是如何描述它们的：</p>
+
+<h4>vw</h4>
+
+<blockquote>
+<p>Equal to 1% of the width of the initial containing block</p>
+</blockquote>
+
+<h4>vh</h4>
+
+<blockquote>
+<p>Equal to 1% of the height of the initial containing block.</p>
+</blockquote>
+
+<h4>vmin</h4>
+
+<blockquote>
+<p>Equal to the smaller of ‘vw’ or ‘vh’.</p>
+</blockquote>
+
+<h4>vmax</h4>
+
+<blockquote>
+<p>Equal to the larger of ‘vw’ or ‘vh’.</p>
+</blockquote>
+
+<p>首先我们要知道，vw和vh中所说的viewport指的是window.innerWidth和window.innerHeight。即不包括浏览器顶部任务标题栏及底部状态栏的可视区域。</p>
+
+<p>接下来看看这几个属性可以用在什么地方：</p>
+
+<p>场景一：弹层和弹层蒙版</p>
+
+<p>我们都实现过弹层的功能，大多数弹层会在加载的时候为页面遮盖一层蒙版。我们只需要将蒙版定位到屏幕左上角，然后给它设置width: 100vw和height: 100vh即可。其实这个可以理解为只要是和屏幕尺寸相关的动态值都可以使用vw和vh，也包括宽高自适应的弹层。</p>
+
+<p>场景二：元素尺寸限制</p>
+
+<p>一个缩略图，点击后查看原图。当原图尺寸太大的时候，就会超出父容器的限制。在这种情况下，可以使用</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">img { max-height: xxx vh; } // 通过最大高度限制图片的高宽
+</code></pre></div>
+<p>关于rem和vw浏览器兼容情况可以参考<a href="http://caniuse.com/">caniuse</a>, 更多场景及问题详见参考链接中的<a href="http://www.zhangxinxu.com/wordpress/2012/09/new-viewport-relative-units-vw-vh-vm-vmin/" title="视区相关单位vw, vh..简介以及可实际应用场景">视区相关单位vw, vh..简介以及可实际应用场景</a>。</p>
+
+<h2>结语</h2>
+
+<p>移动互联的时代已经到来了，作为一个前端攻城师，我们更应该跟上时代的步伐。有了高级浏览器的支持，我们便可以肆无忌惮的尝试更多更方便的属性和方法。最后，希望大家都能够找到精确度量自己的那个“单位”。</p>
+
+<h2>参考链接</h2>
+
+<ul>
+<li><a href="http://www.sitepoint.com/new-css3-relative-font-size/" title="The New CSS3 Relative Font Sizing Units">The New CSS3 Relative Font Sizing Units</a></li>
+<li><a href="http://www.w3.org/TR/2013/CR-css3-values-20130730/#font-relative-lengths" title="CSS Values and Units Module Level 3">CSS Values and Units Module Level 3</a></li>
+<li><a href="http://caniuse.com/#search=vw" title="Can i use vw">Can i use vw</a></li>
+<li><a href="http://www.zhangxinxu.com/wordpress/2012/09/new-viewport-relative-units-vw-vh-vm-vmin/" title="视区相关单位vw, vh..简介以及可实际应用场景">视区相关单位vw, vh..简介以及可实际应用场景</a></li>
+</ul>
+</div>
+            </div>
+        </article>
+	</div>
+	<!-- 多说评论框 start -->
+<div class="site_comment">
+	<div class="ds-thread" data-title="深入理解CSS中的尺寸单位"></div>
+</div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"tonyssc"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.unstable.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+</div>
+
+<!-- footer start -->
+<footer class="site_footer">
+    <div class="footer_inner">
+        <div class="footer_powered">
+            <span class="powered_info">Powered by</span>
+            <span class="powered_list">
+                <a class="link_powered" href="http://jekyllrb.com/" target="_blank" title="Jekyll">Jekyll</a>
+                <a class="link_powered" href="http://fortawesome.github.io/Font-Awesome/" target="_blank" title="Font Awesome">Font Awesome</a>
+                <a class="link_powered" href="http://duoshuo.com/" target="_blank" title="duoshuo">Duoshuo</a>
+            </span>
+        </div>
+    </div>
+</footer>
+<!-- footer end -->
+<script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+</body>
+</html>

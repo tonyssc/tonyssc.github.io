@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>
+  [ Tony ]
+ </title>
+ <link href="/atom.xml" rel="self"/>
+ <link href=""/>
+ <updated>2014-10-27T09:21:45+08:00</updated>
+ <id></id>
+ <author>
+   <name>Sun Shaocheng</name>
+   <email>tony.sunsc@gmail.com</email>
+ </author>
+
+ 
+ <entry>
+   <title>深入理解CSS中的尺寸单位</title>
+   <link href="/2014/10/19/the-units-of-size-in-building"/>
+   <updated>2014-10-19T17:30:00+08:00</updated>
+   <id>/2014/10/19/the-units-of-size-in-building</id>
+   <content type="html">&lt;p&gt;最近在移动端的页面开发过程中使用了较多的相对尺寸单位，发现配合移动端页面的响应式特点效果比较好。本来只想介绍这些新的尺寸单位，后来想想还是让那些基础的尺寸单位也露露脸，搭个顺风车。&lt;/p&gt;
+
+&lt;h2&gt;常见的尺寸单位：&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;% -- 百分比&lt;/li&gt;
+&lt;li&gt;in -- 寸&lt;/li&gt;
+&lt;li&gt;cm -- 厘米&lt;/li&gt;
+&lt;li&gt;mm -- 毫米&lt;/li&gt;
+&lt;li&gt;pt(point) -- 大约1/72寸&lt;/li&gt;
+&lt;li&gt;pc(pica) -- 大约6pt, 1/6寸&lt;/li&gt;
+&lt;li&gt;px -- 屏幕的一个像素点&lt;/li&gt;
+&lt;li&gt;em -- 相对单位&lt;/li&gt;
+&lt;li&gt;ex -- font-size的x-height值，为小写字母x的高度，通常相当于font-size的一半&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!--break--&gt;
+
+&lt;p&gt;介绍了这么多只是希望大家对尺寸单位有个整体的了解，其实日常开发中我们熟悉的尺寸单位无非是以下这三种：px / % / em&lt;/p&gt;
+
+&lt;p&gt;px就不多说了，制作一个固定尺寸的页面就靠它了。包括字体的大小，行高，容器的宽高等等...&lt;/p&gt;
+
+&lt;p&gt;%和em都表示一个相对单位，都是基于某个值来计算当前元素的尺寸的，让我们先看几个例子：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;.percent { font-size: 150%; } // 字体大小为父元素的150%
+.em { font-size: 1.5em; } // 字体大小为父元素的1.5倍
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;上边这个例子中150%和1.5em得到的结果是一致的。那么新的问题就出现了，我们都知道，当行高为文字大小的1.5倍的时候，用户阅读起来会更舒服，因此我们经常设置line-height: 1.5，那么line-height: 1.5和line-height: 150%或者line-height: 1.5em有什么区别呢？&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;body { font-size: 14px; }
+.px-line-height { line-height: 15px; }
+.em-line-height { line-height: 1.5em; }
+.percent-line-height { line-height: 150%; }
+.nounits-line-height { line-height: 1.5; }
+pre { font-size: 30px; }
+
+&amp;lt;div class=&amp;quot;px-line-height&amp;quot;&amp;gt;
+    &amp;lt;pre&amp;gt;
+    测试
+    情况为line-height:15px时
+    &amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;div class=&amp;quot;em-line-height&amp;quot;&amp;gt;
+    &amp;lt;pre&amp;gt;
+    测试
+    情况为line-height:1.5em时
+    &amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;div class=&amp;quot;percent-line-height&amp;quot;&amp;gt;
+    &amp;lt;pre&amp;gt;
+    测试
+    情况为line-height:150%时
+    &amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;div class=&amp;quot;nounits-line-height&amp;quot;&amp;gt;
+    &amp;lt;pre&amp;gt;
+    测试
+    情况为line-height:1.5时
+    &amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;结果如下图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/public/images/line-height.png&quot; style=&quot;width:458px;height:561px;&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;从图中我们得到的结论就是：&lt;/p&gt;
+
+&lt;p&gt;百分比和em在计算line-height时会根据父元素的font-size计算，然后将结果赋给line-height属性，而没有单位的倍数会根据子元素的font-size动态计算line-height属性值。&lt;/p&gt;
+
+&lt;h2&gt;CSS3中的尺寸单位&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ch -- 字符0的宽度&lt;/li&gt;
+&lt;li&gt;rem -- 根据根元素(html)font-size计算的值, 相对单位&lt;/li&gt;
+&lt;li&gt;vw -- viewport width, 根据视口宽度计算的值, 1vw相当于视口宽度的1%&lt;/li&gt;
+&lt;li&gt;vh -- viewport height, 根据视口高度计算的值, 1vh相当于视口高度的1%&lt;/li&gt;
+&lt;li&gt;vmin -- vw和vh中较小的那个值&lt;/li&gt;
+&lt;li&gt;vmax -- vw和vh中较大的那个值&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这里我们着重介绍rem和vw、vh这几个单位, 这三个单位都适合用在移动端开发中，因为移动端的页面要求要兼容多个尺寸的移动设备，而相对单位又是响应式的必备工具。&lt;/p&gt;
+
+&lt;h3&gt;rem&lt;/h3&gt;
+
+&lt;p&gt;使用过em或%单位布局的同学都应该知道，它们会根据父元素进行相应的尺寸计算，计算深度会一级一级的叠加，如果不能很清楚的理清每层的相对数值，最后会出现不小的偏差，而且变得很难维护。rem则是在em的基础上进行的扩展，r=root。从字面上就可以理解rem是针对根元素(html)进行尺寸的计算，在开发中只需要设置html元素的字体大小，在后续的开发中都可以根据这个相对值进行尺寸的设定，例如：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;html { font-size: 0.625rem; } // 浏览器默认的字体大小是16px，0.625 * 16 = 10
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这里只是一个参考值，将基数定为10便于后续的尺寸计算。比如：h1标签的字体需要20px，则可以设置：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;h1 { font-size: 2rem; } // 10 * 2 = 20
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;vw vh vmin vmax&lt;/h3&gt;
+
+&lt;p&gt;先让我们看看w3c是如何描述它们的：&lt;/p&gt;
+
+&lt;h4&gt;vw&lt;/h4&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Equal to 1% of the width of the initial containing block&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4&gt;vh&lt;/h4&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Equal to 1% of the height of the initial containing block.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4&gt;vmin&lt;/h4&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Equal to the smaller of ‘vw’ or ‘vh’.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4&gt;vmax&lt;/h4&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Equal to the larger of ‘vw’ or ‘vh’.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;首先我们要知道，vw和vh中所说的viewport指的是window.innerWidth和window.innerHeight。即不包括浏览器顶部任务标题栏及底部状态栏的可视区域。&lt;/p&gt;
+
+&lt;p&gt;接下来看看这几个属性可以用在什么地方：&lt;/p&gt;
+
+&lt;p&gt;场景一：弹层和弹层蒙版&lt;/p&gt;
+
+&lt;p&gt;我们都实现过弹层的功能，大多数弹层会在加载的时候为页面遮盖一层蒙版。我们只需要将蒙版定位到屏幕左上角，然后给它设置width: 100vw和height: 100vh即可。其实这个可以理解为只要是和屏幕尺寸相关的动态值都可以使用vw和vh，也包括宽高自适应的弹层。&lt;/p&gt;
+
+&lt;p&gt;场景二：元素尺寸限制&lt;/p&gt;
+
+&lt;p&gt;一个缩略图，点击后查看原图。当原图尺寸太大的时候，就会超出父容器的限制。在这种情况下，可以使用&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;img { max-height: xxx vh; } // 通过最大高度限制图片的高宽
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;关于rem和vw浏览器兼容情况可以参考&lt;a href=&quot;http://caniuse.com/&quot;&gt;caniuse&lt;/a&gt;, 更多场景及问题详见参考链接中的&lt;a href=&quot;http://www.zhangxinxu.com/wordpress/2012/09/new-viewport-relative-units-vw-vh-vm-vmin/&quot; title=&quot;视区相关单位vw, vh..简介以及可实际应用场景&quot;&gt;视区相关单位vw, vh..简介以及可实际应用场景&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h2&gt;结语&lt;/h2&gt;
+
+&lt;p&gt;移动互联的时代已经到来了，作为一个前端攻城师，我们更应该跟上时代的步伐。有了高级浏览器的支持，我们便可以肆无忌惮的尝试更多更方便的属性和方法。最后，希望大家都能够找到精确度量自己的那个“单位”。&lt;/p&gt;
+
+&lt;h2&gt;参考链接&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.sitepoint.com/new-css3-relative-font-size/&quot; title=&quot;The New CSS3 Relative Font Sizing Units&quot;&gt;The New CSS3 Relative Font Sizing Units&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.w3.org/TR/2013/CR-css3-values-20130730/#font-relative-lengths&quot; title=&quot;CSS Values and Units Module Level 3&quot;&gt;CSS Values and Units Module Level 3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://caniuse.com/#search=vw&quot; title=&quot;Can i use vw&quot;&gt;Can i use vw&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.zhangxinxu.com/wordpress/2012/09/new-viewport-relative-units-vw-vh-vm-vmin/&quot; title=&quot;视区相关单位vw, vh..简介以及可实际应用场景&quot;&gt;视区相关单位vw, vh..简介以及可实际应用场景&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>也谈flexbox布局</title>
+   <link href="/2014/09/15/also-talk-about-the-flexbox-layout"/>
+   <updated>2014-09-15T18:00:00+08:00</updated>
+   <id>/2014/09/15/also-talk-about-the-flexbox-layout</id>
+   <content type="html">&lt;p&gt;为什么叫也谈flexbox布局呢？首先网上已经有不少关于这方面知识的介绍，尤其是&lt;a href=&quot;http://www.w3cplus.com/&quot;&gt;w3cplus&lt;/a&gt;中，分了几篇文章对该知识点进行了较详细的分析，本人一开始也是参考这些文章入门的。随着将该技术用到工作中的mac和h5的项目中，会发现还有一些需要注意的地方，说严重点就是这里边还有坑。这便是“再谈一下flexbox布局”的初衷。&lt;/p&gt;
+
+&lt;!--break--&gt;
+
+&lt;h2&gt;什么是flexbox布局&lt;/h2&gt;
+
+&lt;p&gt;Flexbox布局俗称伸缩布局，它可以简单快速的创建一个具有弹性功能的布局。一个Flexbox布局是由一个伸缩容器（flex containers）和在这个容器里的若干伸缩项目（flex items）组成。伸缩容器（flex containers）是一个HTML标签元素，并且“display”属性显式的设置了“flex”属性值。在伸缩容器中的所有子元素都会自动变成伸缩项目（flex items）。当在一个小屏幕上显示的时候，Flexbox可以让元素在容器（伸缩容器）中进行自由扩展和收缩，从而容易调整整个布局。&lt;/p&gt;
+
+&lt;p&gt;Flexbox布局能够让我们很轻松的实现以下效果：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;在不设置元素的具体宽度的情形下将元素排成横排，并在一排的空间不够的时候折行。&lt;/li&gt;
+&lt;li&gt;快速的将元素排成竖排。&lt;/li&gt;
+&lt;li&gt;将元素沿着父容器的左边、右边或中间或者两端(之前只能使用text-align:justify，还需要为低版本浏览器做很多兼容)对齐。&lt;/li&gt;
+&lt;li&gt;改变元素显示的顺序而不改变页面的dom结构。&lt;/li&gt;
+&lt;li&gt;将每个元素占有的空间设置为父元素宽度／高度的一个比例，却不用担心在父元素的尺寸设置为百分比值的时候或是窗口的尺寸变化的时候布局会坏掉。&lt;/li&gt;
+&lt;li&gt;实现元素的水平，垂直居中。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;flexbox这些特性完美的实现了流式布局，并在原始的百分比布局基础上做了很多实用功能的扩展，可以说它天生就是为了h5而生。&lt;/p&gt;
+
+&lt;h2&gt;flexbox的前世今生&lt;/h2&gt;
+
+&lt;p&gt;要想真正用好flexbox布局，有必要了解其发展史。否则在今后项目中运用它的时候会出现让你抓狂的问题(更何况h5的项目会测试N多机型和N+N种浏览器 =。=! )。下面着重介绍flexbox的发展历史，如果想了解每个版本中的其他属性，请参考各个版本中的相关链接。&lt;/p&gt;
+
+&lt;h3&gt;flexbox诞生&lt;/h3&gt;
+
+&lt;p&gt;w3c在2009年发布了第一版&lt;a href=&quot;http://www.w3.org/TR/2009/WD-css3-flexbox-20090723/&quot;&gt;Flexible Box Layout Module&lt;/a&gt;。根据该规范，定义了两个新的display属性为：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;display: box;
+display: inline-box;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;伴随着该display属性，同时定义了一系列flexbox布局需要的属性和方法。第一版规范仅仅得到了旧版webkit(chrome, safari)内核和旧版Gecko内核(firefox)的支持。支持版本如下：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+display: -moz-box;    /* OLD - Firefox 19- (doesn&amp;#39;t work very well) */
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;虽然这个版本是flexbox的第一版，但是它在页面布局上带来的贡献绝对不可小视。我们都知道，市面上种类繁多的移动设备rom和各种自主研发或套壳浏览器。想要做到对它们的兼容，这个版本的兼容样式是必不可少的。关于前缀，box和inline-box这两个属性只需要设置带前缀的样式即可。关于支持性，webkit内核的浏览器对旧版的flexbox支持很好，但不得不提的就是gecko内核的firefox。我特地安装了最新版的firefox浏览器(32.0.1)并做了相关测试，发现如果不设置伸缩容器的宽度，设置display: -moz-box的伸缩容器表现出来的行为和display: -moz-inline-box一样，因此如果使用-moz-box进行布局，伸缩容器就一定要&lt;strong&gt;设置宽度&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;h3&gt;flexbox成长&lt;/h3&gt;
+
+&lt;p&gt;w3c在2011-2012年发布了新的flexbox布局，也可以算作flexbox历史上的第二版&lt;a href=&quot;http://www.w3.org/TR/2011/WD-css3-flexbox-20110322/&quot;&gt;Flexible Box Layout Module - 2011&lt;/a&gt;，&lt;a href=&quot;http://www.w3.org/TR/2012/WD-css3-flexbox-20120322/&quot;&gt;CSS Flexible Box Layout Module - 2012&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;这两个版本在第一版的基础上将box替换为flexbox:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;display: flexbox;
+display: inline-flexbox;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;该版本并没有得到各浏览器厂商很好地支持，可能w3c不想给flexbox布局遗留太多的兼容性语法，在第三版发布之后这个版本的语法只有IE10保留了对它的支持。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;display: -ms-flexbox; /* TWEENER - IE 10 */
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;所以，如果开发的项目需要支持IE浏览器，则需要将这个兼容语法保留下来，其他的浏览器就不用考虑该语法了。&lt;/p&gt;
+
+&lt;h3&gt;flexbox的现在和未来&lt;/h3&gt;
+
+&lt;p&gt;w3c在2012年6月发布了第三版flexbox布局，其语法结构一直沿用至今并规范了其名字为Level 1，&lt;a href=&quot;http://www.w3.org/TR/css-flexbox-1/&quot;&gt;CSS Flexible Box Layout Module Level 1&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;这个版本中，w3c再一次对flexbox的核心语法进行了修改, display属性如下：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;display: flex;
+display: inline-flex;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;由于这个版本的语法已经作为新一代flexbox布局的标准，各个浏览器的厂商都在w3c的标准下对它做了很好地支持。下面列举webkit内核和gecko内核的语法。需要注意的是，在这个版本的语法中，firefox浏览器只支持默认(不带前缀)的属性：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;display: -webkit-flex;  /* NEW - Chrome */
+display: flex;          /* NEW, Spec - Opera 12.1, Firefox 20+ */
+display: -moz-flex;     /* Error doesn&amp;#39;t work */
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;在我看来，第三版的flexbox布局已经能够完美的解决大多数移动端的复杂布局。至于将来会不会有更加先进的布局技术，这个艰巨的任务只能由w3c的工作小组来完成了。&lt;/p&gt;
+
+&lt;h2&gt;flexbox的那些坑&lt;/h2&gt;
+
+&lt;p&gt;了解完flexbox的历史，让我们回到项目中，看看flexbox给我们带来的那些坑！&lt;/p&gt;
+
+&lt;h3&gt;1.浏览器属性支持&lt;/h3&gt;
+
+&lt;p&gt;比如我们开发一个h5的项目，考虑到要兼容多个版本的浏览器(Android 2.1, Android 2.2+, ios6, ios7...)。我们既要保证低版本浏览器能够在布局上不出现问题，还要尽量为高版本的浏览器设置一些高级属性，这同样也体现了渐进式增强的特点。因此我们要做如下设置：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6 */
+display: -moz-box;      /* OLD - Firefox 19- (doesn&amp;#39;t work very well) */
+display: -ms-flexbox;   /* TWEENER - IE 10 */
+display: -webkit-flex;  /* NEW - Chrome */
+display: flex;          /* NEW, Spec - Opera 12.1, Firefox 20+ */
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;由于移动端firefox用户量较小，而旧版本的flexbox在firefox上支持的也不是很好。因此我们可以去掉display: -moz-box，只保留display: flex对新版firefox的支持即可。&lt;/p&gt;
+
+&lt;h3&gt;2.水平、垂直居中&lt;/h3&gt;
+
+&lt;p&gt;flexbox完美的解决了项目中任何布局的水平、垂直居中问题。我们只需要给伸缩容器设置如下属性：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;/* basic flexbox style */
+display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6 */
+display: -ms-flexbox;   /* TWEENER - IE 10 */
+display: -webkit-flex;  /* NEW - Chrome */
+display: flex;          /* NEW, Spec - Opera 12.1, Firefox 20+ */
+
+/* vertical &amp;amp;&amp;amp; horizontal */
+-webkit-box-pack: center;           /* OLD - horizontal for IOS 6-, Safari 3.1-6 */
+-webkit-box-align: center;          /* OLD - vertical for IOS 6-, Safari 3.1-6 */
+-ms-flex-pack: center;              /* TWEENER - horizontal for IE 10 */
+-ms-flex-align: center;             /* TWEENER - horizontal for IE 10 */
+-webkit-justify-content: center;    /* NEW - horizontal for Chrome */
+justify-content: center;            /* NEW - horizontal for Firefox */
+-webkit-align-items: center;        /* NEW - vertical for chrome */
+align-items: center;                /* NEW - vertical for Firefox */
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;用了这么多代码进行新老样式兼容，似乎看上去搞定了，但这些样式在低版本的webkit内核上(IOS6...)会有一个坑。就是flexbox的居中样式需要配合margin: auto来完成真正意义上的居中。所以还需要加上如下设置：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;/* 水平居中 */
+margin-left: auto;
+margin-right: auto;
+
+/* 垂直居中 */
+margin-top: auto;
+margin-bottom: auto;
+
+/* 水平、垂直居中 */
+margin: auto;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;3.内容和容器的关系&lt;/h3&gt;
+
+&lt;p&gt;在进行页面布局的时候，我们经常会碰到如下场景：&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;article_entry_img&quot; src=&quot;http://images.cnitblog.com/blog/575790/201311/28110734-10370ecb20144baaae2f169390df01eb.png&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;对页面中的某个容器进行均分操作，使用flexbox布局实现该效果的新老样式如下：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;-webkit-box-flex: 1;    /* OLD Chrome */
+-ms-flex: 1;            /* OLD IE */
+-webkit-flex: 1;        /* NEW Chrome */
+flex: 1;                /* NEW Chrome, Safari, Firefox */
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;进行如上设置后出现的问题就是：旧版浏览器使用-webkit-box-flex: 1，伸缩项的宽度会和其内容的多少有关。而设置-webkit-flex: 1，伸缩项的宽度是固定的，无论其中的内容有多少。它们的差异表现为下图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;article_entry_img&quot; src=&quot;http://images.cnblogs.com/cnblogs_com/tonyssc/612569/o_28110734-10370ecb20144baaae2f169390df01eb.jpg&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;到这里，我们就有必要了解一下flex属性了，通过查看w3c官方文档得知flex是另外三个属性的缩写，他们分别是：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;flex-grow：定义伸缩项的扩展能力。它接受一个不带单位的值做为一个比例。主要用来决定伸缩容器剩余空间按比例应扩展多少空间。默认值为1。&lt;/li&gt;
+&lt;li&gt;flex-shrink：定义伸缩项的收缩能力。它接受一个不带单位的值做为一个比例。默认值为0。&lt;/li&gt;
+&lt;li&gt;flex-basis：定义伸缩项的伸缩基准值。它接受一个类似width的值。默认为auto。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;用到flex缩写中即：flex: none | [ &amp;lt;‘flex-grow’&amp;gt; &amp;lt;‘flex-shrink’&amp;gt;? || &amp;lt;‘flex-basis’&amp;gt; ]。&lt;/p&gt;
+
+&lt;p&gt;按照这个缩写我们将把上边的代码改为:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;-webkit-box-flex: 1;        /* OLD Chrome */
+-ms-flex: 1 0 auto;         /* OLD IE */
+-webkit-flex: 1 0 auto;     /* NEW Chrome */
+flex: 1 0 auto;             /* NEW Chrome, Safari, Firefox */
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;现在我们将flex属性的缩写补全，另外两个值按照其默认值来设置，按说得到的结果应该和上边一样。但是恰恰相反，现在这两版语法表现出的行为完全一致，伸缩项的宽度都会根据内容多少改变。他们真实地分配原则是：先按照伸缩项的内容进行空间分配，然后将伸缩容器剩余的空间按照flex-grow的比值进行分配。也就是说，我们这样设置得到的结果不是将伸缩容器平均分为N份，而是将减去伸缩项内容剩余的宽度平均分为N份。&lt;/p&gt;
+
+&lt;p&gt;再继续查看w3c对于flex的定义，我们发现：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;lt;‘flex-basis’&amp;gt;&lt;/p&gt;
+
+&lt;p&gt;This component, which takes the same values as the width property, sets the flex-basis longhand and specifies the flex basis: the initial main size of the flex item, before free space is distributed according to the flex factors. When omitted from the flex shorthand, its specified value is 0%.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;最后这句话揭露了问题的真相，当使用flex属性的缩写格式时，flex-basis的默认值为0%，即伸缩项的伸缩基准值为0。这就是为什么当我们只设置flex: 1后，无论内容如何变化，伸缩项的宽度始终保持不变。所以：flex: 1 &amp;lt; = &amp;gt; flex: 1 0 0&lt;/p&gt;
+
+&lt;p&gt;最后附上一个用sass编写的flexbox布局新老版本兼容代码的@mixin链接：&lt;a href=&quot;https://github.com/mastastealth/sass-flex-mixin/blob/master/flex.scss&quot; title=&quot;sass-flex-mixin&quot;&gt;sass-flex-mixin&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2&gt;结语&lt;/h2&gt;
+
+&lt;p&gt;flexbox布局固然好用，但我们也需要根据项目的实际情况来做出合理的选择，有些时候是不是用宽度百分比 + box-sizing(border-box)也能实现简单的响应式布局。这样我们就能避免在不恰当的地方浪费更多地精力和css大小。&lt;/p&gt;
+
+&lt;h2&gt;参考链接&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.w3.org/TR/css3-flexbox/&quot; title=&quot;Flexible Box Layout Module 1&quot;&gt;CSS Flexible Box Layout Module Level 1&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://dev.oupeng.com/articles/flexbox-basics&quot; title=&quot;伸缩布局 — 打开布局天堂之门？&quot;&gt;伸缩布局 — 打开布局天堂之门？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://dev.oupeng.com/articles/advanced-cross-browser-flexbox&quot; title=&quot;跨浏览器弹性布局进阶教程&quot;&gt;跨浏览器弹性布局进阶教程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.w3cplus.com/css3/a-guide-to-flexbox.html&quot; title=&quot;一个完整的Flexbox指南&quot;&gt;一个完整的Flexbox指南&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://the-echoplex.net/flexyboxes/&quot; title=&quot;flexbox playground and code generator&quot;&gt;flexbox playground and code generator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/ie/hh772069%28v=vs.85%29.aspx&quot; title=&quot;Flexible Box Layout&quot;&gt;Flexible Box Layout&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Github my pages -- Jekyll</title>
+   <link href="/2014/08/20/github-my-pages-jekyll"/>
+   <updated>2014-08-20T18:12:00+08:00</updated>
+   <id>/2014/08/20/github-my-pages-jekyll</id>
+   <content type="html">&lt;p&gt;&lt;img src=&quot;/public/images/jekyll-logo-light-transparent.png&quot; alt=&quot;jekyll&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;在上篇文章中我提到了搭建一个github pages所用到的东西，从这篇开始将逐一介绍每一个知识点。首先要声明一下：网上关于搭建github pages的文章很多，有些已经介绍的很详细了。我只是将我认为重要的环节和我在搭建过程中遇到的一些问题记录下来，关于那些基本概念和基础的操作将略过，本文的最后会列出我在建站过程中阅读的文章链接供大家参考。&lt;/p&gt;
+
+&lt;!--break--&gt;
+
+&lt;h2&gt;Github pages是什么？&lt;/h2&gt;
+
+&lt;p&gt;github pages可以看做是用户编写的，托管在github上的静态网页。github为用户提供了现成的pages模板，当然它也允许用户自己编写页面，然后上传。重要的是，这种上传并不是单纯的文件上传，而是会经过Jekyll程序的再处理。&lt;/p&gt;
+
+&lt;h2&gt;Jekyll是什么？&lt;/h2&gt;
+
+&lt;p&gt;搭建一个github pages，最核心的就是使用一个站点的发布器，其他功能(比如评论)都是作为插件丰富我们的网站。Jekyll就起到的静态站点发布器的作用，它会根据网页源代码生成静态的文件，并且提供了模板、变量、插件等功能。因此，抛开网站中的辅助功能，只使用Jekyll就可以完成一个站点的搭建。了解以上两点，我们建站的思路就很明确了：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;在本地编写符合Jekyll规范的网站代码；&lt;/li&gt;
+&lt;li&gt;将页面上传到github，由github生成并托管我们的网站。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3&gt;安装Jekyll&lt;/h3&gt;
+
+&lt;p&gt;安装Jekyll最好的方式是RubyGem：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ gem install jekyll
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;使用Jekyll&lt;/h3&gt;
+
+&lt;p&gt;一个典型的Jekyll站点通常具有如下结构：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;.    
+|--  _config.yml
+|--  _includes
+|     |--  header.html
+|--  _layouts
+|     |--  default.html 
+|--  _posts
+|     |--  2014-08-19-hello-world.html
+|--  _site
+|--　index.html
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;_config.yml&lt;/h4&gt;
+
+&lt;p&gt;Jekyll的配置文件，详细解释参考&lt;a href=&quot;http://jekyllrb.com/docs/configuration/&quot; title=&quot;Jekyll config&quot;&gt;Jekyll config&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4&gt;_includes&lt;/h4&gt;
+
+&lt;p&gt;该文件夹存放可以与&lt;em&gt;layouts和&lt;/em&gt;posts混合、匹配使用的文件，也可以称为结构碎片。比如站点的头部(head.html)，底部(footer.html)等等。&lt;/p&gt;
+
+&lt;h4&gt;_layouts&lt;/h4&gt;
+
+&lt;p&gt;该文件夹存放站点的布局模板文件，比如通用模板(default.html)，首页模板(index.html)，文章模板(post.html)等等。&lt;/p&gt;
+
+&lt;h4&gt;_posts&lt;/h4&gt;
+
+&lt;p&gt;该文件夹存放所有的博客文章，博客文件名必须遵循：YEAR-MONTH-DATE-TITLE.后缀名(如果网页代码采用html格式，后缀名为html。如果采用&lt;a href=&quot;http://daringfireball.net/projects/markdown/%20markdown&quot;&gt;markdown&lt;/a&gt;格式，后缀名为md)。每一个帖子的固定链接URL可以作弹性的调整，但帖子的发布日期和转换所使用的标记语言会根据且仅根据文件名中的相应部分来识别。&lt;/p&gt;
+
+&lt;h4&gt;_site&lt;/h4&gt;
+
+&lt;p&gt;该文件夹是Jekyll用以存放最终生成站点静态文件的地方(Jekyll的站点文件中，没有以&amp;quot;下划线 _&amp;quot;开头的文件夹最终都会被放到 _site)。建议将该文件夹添加到.gitignore列表。&lt;/p&gt;
+
+&lt;h4&gt;index.html&lt;/h4&gt;
+
+&lt;p&gt;顾名思义，每个站点都需要一个首页。&lt;/p&gt;
+
+&lt;p&gt;至于如何编写模板、碎片以及首页等，可以参考我的&lt;a href=&quot;https://github.com/tonyssc/tonyssc.github.com/&quot;&gt;github pages&lt;/a&gt;，也可以参考&lt;a href=&quot;https://github.com/plusjade/jekyll-bootstrap/&quot;&gt;jekyll bootstrap&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h3&gt;运行Jekyll&lt;/h3&gt;
+
+&lt;p&gt;进入你的站点目录中，运行：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ jekyll server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;或者：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ jekyll server -w
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;加入-w参数，jekyll会自动监听文件的变动，可以方便的让用户即时预览修改后的页面。然后在浏览器中输入http://localhost:4000即可访问你的站点。&lt;/p&gt;
+
+&lt;p&gt;当然jekyll还有很多其他的参数选项可以使用，更多用法参考&lt;a href=&quot;http://jekyllrb.com/docs/usage/&quot;&gt;Jekyll Basic Usage&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;本篇文章主要介绍了Jekyll的目录结构和基本用法。在接下来的文章中会着重介绍站点中模板的组织方式和结构碎片的编写。&lt;/p&gt;
+
+&lt;h4&gt;参考链接&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html&quot; title=&quot;github Pages和Jekyll入门&quot;&gt;github Pages和Jekyll入门&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://pages.github.com/&quot; title=&quot;Github Pages&quot;&gt;Github Pages&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://yanping.me/cn/blog/2012/03/18/github-pages-step-by-step/&quot; title=&quot;Github Pages极简教程&quot;&gt;Github Pages极简教程&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>My Github Pages</title>
+   <link href="/2014/08/13/my-pages"/>
+   <updated>2014-08-13T05:22:00+08:00</updated>
+   <id>/2014/08/13/my-pages</id>
+   <content type="html">&lt;p&gt;作为一名半吊子的前端开发，一直混迹于博客园，在园子里偶尔分享一下工作中用到的个人感觉还不错的技术。最近受身边同事和朋友的影响，决定在github上弄个blog，毕竟这里才是coder们最终的归属地。&lt;/p&gt;
+
+&lt;!--break--&gt;
+
+&lt;p&gt;google了关于在github pages上搭建blog的相关知识。总结一下主要用到了以下几样东西：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Github Pages -- 不用多说，我们的页面就是托管在这上边&lt;/li&gt;
+&lt;li&gt;Jekyll -- 发布blog&lt;/li&gt;
+&lt;li&gt;duoshuo -- 评论系统(本来想用DISQUS，发现有些慢，还是支持一下国产)&lt;/li&gt;
+&lt;li&gt;Font Awesome -- 页面中用到的矢量字体&lt;/li&gt;
+&lt;li&gt;MarkDown -- 这不能算是核心的东西，只是写blog的时候用到它&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;对于一个没有搭建blog基础的人来说，在搭建过程中攻克一个个难题还是能学到很多东西的，在接下来的几篇文章里我会先把这次搭建blog遇到的问题总结出来。一方面为自己在这方面的知识做个归纳和积累，另一方面能帮助那些想在github上折腾的同学快速的完成blog搭建。&lt;/p&gt;
+
+&lt;p&gt;一开始本来想用bootstrap jeklly。后来还是决定自己从头开始研究，熟悉搭建blog的每一个步骤，好在github上有很多现成的例子可以借鉴。关于页面的主题，对于没有设计能力的我来说，只能在&lt;a href=&quot;http://www.zhihu.com/&quot; title=&quot;知乎&quot;&gt;知乎&lt;/a&gt;上搜索&amp;quot;简洁风格blog主题&amp;quot;，最终找了一个相对简洁明了的主题作为这次blog的试验品。&lt;/p&gt;
+
+&lt;p&gt;最后，写bolg这东西，贵在坚持，把自己想分享的东西梳理成文字还能让其他人看明白也算是一种修炼了吧。&lt;/p&gt;
+</content>
+ </entry>
+ 
+
+</feed>

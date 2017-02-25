@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <title>Page Not Found</title>
+        <style>
+            ::-moz-selection {
+                background: #b3d4fc;
+                text-shadow: none;
+            }
+            ::selection {
+                background: #b3d4fc;
+                text-shadow: none;
+            }
+            html {
+                padding: 30px 10px;
+                font-size: 20px;
+                line-height: 1.5;
+                color: #737373;
+                background: #f0f0f0;
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
+            html,
+            input {
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            }
+            h1 {
+                margin: 0 10px;
+                font-size: 60px;
+                text-align: center;
+                font-weight: 100;
+                text-shadow: 0 1px 0 #fff;
+                color: #333;
+            }
+            p { margin: 1em 0; }
+            input::-moz-focus-inner { padding: 0; border: 0; }
+            .s404_desc {
+                margin: 1.5em 0 0.5em;
+                font-weight: normal;
+                text-align: center;
+                font-size: 18px;
+            }
+            .avatar {
+                width: 30px;
+                height: 30px;
+                margin-top: 20px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .link_avatar {
+                overflow: hidden;
+                position: relative;
+                display: block;
+                width: 30px;
+                height: 30px;
+                background: url(../img/avatar.jpg) no-repeat ;
+                border-radius: 50%;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                background-size: cover;
+                box-shadow: 0 0 2px rgba(0, 0, 0, .7);
+            }
+            .link_avatar:after {
+                position: absolute;
+                content: " ";
+                width: 100%;
+                height: 40%;
+                background: -moz-linear-gradient(top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
+                background: -webkit-linear-gradient(top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
+                background: linear-gradient(top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
+                border-top-left-radius: 15px;
+                border-top-right-radius: 15px;
+                top: -1px;
+            }
+            .s404_link {
+                margin-top: 35px;
+                color: #ccc;
+                font-weight: 200;
+                text-align: center;
+            }
+            .s404_link a {
+                color: #666;
+                font-weight: 200;
+                font-size: 14px;
+                margin: 0 10px;
+                text-decoration: none;
+            }
+            .s404_link a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <section class="s404_container">
+            <h1>404</h1>
+            <h3 class="s404_desc">There isn't a Page here, But you can refer the following links.</h3>
+            <div class="s404_link">
+                <a href="/" title="myPages">Github Pages</a>—<a href="https://github.com/tonyssc" title="myGithub">Github Index</a>—<a href="http://weibo.com/tonyssc" title="myWeibo">@tonyssc</a>
+            </div>
+            <div class="avatar">
+                <a class="link_avatar" href="/" title="back to my blog"></a>
+            </div>
+        </section>
+    </body>
+</html>

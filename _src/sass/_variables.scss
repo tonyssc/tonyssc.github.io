@@ -1,0 +1,45 @@
+//-----------------------------------------------------
+// variables scss
+//-----------------------------------------------------
+
+
+// compatible
+//-----------------------------------------------------
+$lte7:                  false !default; // whether support style for ie6-7
+$filter:                false !default; // whether support filter for ie6-8
+
+
+// font
+//-----------------------------------------------------
+$baseFontSize:          14px !default;
+$baseLineHeight:        1.8 !default;
+$baseFontFamily:        "Helvetica Neue", Tahoma, Arial, "Hiragino Sans GB", "\5FAE\8F6F\96C5\9ED1", sans-serif !default;
+$codeFontFamily:		"Source code pro", monospace, "Courier New" !default;
+
+
+// color
+//-----------------------------------------------------
+$black:                 #000 !default;
+$grayDark:              #555 !default;
+$gray:                  #666 !default;
+$grayLight:             #999 !default;
+$white:                 #fff !default;
+
+
+// link
+//-----------------------------------------------------
+// params：link-color, hover-color, active-color
+$linkColor:             $grayDark #258fb8 #258fb8 !default;
+
+
+// Scaffolding
+//-----------------------------------------------------
+$bodyBgColor:           #eee !default;
+$bodyWidth:				960px !default;
+$textColor:				$grayDark;
+
+
+// placeholder
+//-----------------------------------------------------
+// params：是否输出表单的占位符placeholder样式，文本色
+$placeholder:           true $grayDark !default;

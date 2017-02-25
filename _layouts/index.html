@@ -1,0 +1,22 @@
+{% include header.html %}
+
+<div class="site_content">
+    <div class="content_container">
+        {% for post in paginator.posts %}
+        <article class="article">
+            <div class="article_meta"><a class="link_date" href="{{ post.url }}">{{ post.date | date:"%Y/%m/%d" }}</a></div>
+            <div class="article_inner">
+                <header class="article_header">
+                    <h2><a class="link_title" href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></h2>
+                </header>
+                <!--{{ post.excerpt }}-->
+                <div class="article_entry">{{ post.content | split:'<!--break-->' | first }}</div>
+                <div class="article_more"><a href="{{ post.url }}" class="link_more" title="Read More">Read More</a></div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</div>
+
+{% include pagination.html %}
+{% include footer.html %}
